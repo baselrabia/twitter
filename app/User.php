@@ -23,7 +23,7 @@ class User extends Authenticatable
         );
     }
 
-      public function tweetsFromFollowing(){
+    public function tweetsFromFollowing(){
         return $this->hasManyThrough(
             Tweet::class,Follower::class,'user_id','user_id','id','following_id');
     }
