@@ -11,9 +11,10 @@
         />
 
         <div v-if="tweets.length"
-        v-observe-visibility="{
-            callback: visibilityChanged
-        }"> </div>
+            v-observe-visibility="{
+                callback: visibilityChanged
+            }">
+        </div>
     </div>
 </template>
 
@@ -44,13 +45,15 @@
             })
             },
 
-             visibilityChanged (isVisible, entry) {
+             visibilityChanged (isVisible) {
                 if(!isVisible){
                      return
                 }
                 if(this.lastPage === this.page){
                     return
                 }
+                    console.log(isVisible);
+
                 this.page++;
                 this.loadTweets();
             },

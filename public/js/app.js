@@ -1985,7 +1985,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
 //
 //
 //
@@ -2012,7 +2022,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      form: {
+        body: ''
+      }
+    };
+  },
+  methods: {
+    submit: function submit() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/tweets', _this.form);
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  }
+});
 
 /***/ }),
 
@@ -2032,6 +2071,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -2076,7 +2116,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.lastPage = response.data.meta.last_page;
       });
     },
-    visibilityChanged: function visibilityChanged(isVisible, entry) {
+    visibilityChanged: function visibilityChanged(isVisible) {
       if (!isVisible) {
         return;
       }
@@ -2085,6 +2125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
+      console.log(isVisible);
       this.page++;
       this.loadTweets();
     }
@@ -38527,43 +38568,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { staticClass: "flex" }, [
-    _c("div", { staticClass: "mr-3" }, [
-      _c("img", {
-        staticClass: "w-12 rounded-full",
-        attrs: { src: _vm.$user.avatar }
-      })
-    ]),
-    _vm._v(" "),
-    _vm._m(0)
-  ])
+  return _c(
+    "form",
+    {
+      staticClass: "flex",
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.submit($event)
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "mr-3" }, [
+        _c("img", {
+          staticClass: "w-12 rounded-full",
+          attrs: { src: _vm.$user.avatar }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex-grow" }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.body,
+              expression: "form.body"
+            }
+          ],
+          staticClass:
+            "bg-gray-900 w-full outline-none text-gray-300 text-lg  resize-none mb-2",
+          attrs: { placeholder: "what's happning?", autofocus: "" },
+          domProps: { value: _vm.form.body },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "body", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._m(0)
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-grow" }, [
-      _c("textarea", {
-        staticClass:
-          "bg-gray-900 w-full outline-none text-gray-300 text-lg  resize-none mb-2",
-        attrs: { placeholder: "what's happning?", autofocus: "" }
-      }),
+    return _c("div", { staticClass: "flex justify-between" }, [
+      _c("div", [_vm._v("\n           actions\n       ")]),
       _vm._v(" "),
-      _c("div", { staticClass: "flex justify-between" }, [
-        _c("div", [_vm._v("\nactions\n            ")]),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "button",
-            {
-              staticClass:
-                "bg-blue-500 rounded-full text-gray-300 text-center px-4 py-3 font-bold leading-none ",
-              attrs: { type: "submit" }
-            },
-            [_vm._v("\n            Tweet ")]
-          )
-        ])
+      _c("div", [
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-blue-500 rounded-full text-gray-300 text-center px-4 py-3 font-bold leading-none ",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("\n       Tweet ")]
+        )
       ])
     ])
   }
@@ -38612,7 +38682,8 @@ var render = function() {
                 value: {
                   callback: _vm.visibilityChanged
                 },
-                expression: "{\n        callback: visibilityChanged\n    }"
+                expression:
+                  "{\n            callback: visibilityChanged\n        }"
               }
             ]
           })
