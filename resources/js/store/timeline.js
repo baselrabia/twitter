@@ -22,9 +22,10 @@ export default {
 
     actions: {
 
-        async getTweets ({commit}){
-            let response = await axios.get("/api/timeline");
-            commit('PUSH_TWEETS',  response.data.data)
+        async getTweets ({commit},url){
+            let response = await axios.get(url);
+            commit('PUSH_TWEETS',  response.data.data);
+            return response;
         }
 
     }
