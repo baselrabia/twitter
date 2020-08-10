@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\Tweets\TweetWasCreated;
 use App\Http\Requests\Tweets\TweetStoreRequest;
+use App\Tweets\TweetType;
 
 class TweetController extends Controller
 {
@@ -16,7 +17,7 @@ class TweetController extends Controller
 
     public function store(TweetStoreRequest $request)
     {
-        $tweet = $request->user()->tweets()->create($request->only('body'));
+        $tweet = $request->user()->tweets()->create(array_merge($request->only('body'),['type'=>TweetType::TWEET]));
 
         broadcast(new TweetWasCreated($tweet));
 
