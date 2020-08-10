@@ -2106,8 +2106,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return "/api/timeline?page=".concat(this.page);
     }
   }),
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     getTweets: 'timeline/getTweets'
+  })), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
+    PUSH_TWEETS: 'timeline/PUSH_TWEETS'
   })), {}, {
     loadTweets: function loadTweets() {
       var _this = this;
@@ -2131,7 +2133,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
+    var _this2 = this;
+
     this.loadTweets();
+    Echo["private"]("timeline.".concat(this.$user.id)).listen('.TweetWasCreated', function (e) {
+      _this2.PUSH_TWEETS([e]);
+    });
   }
 });
 
@@ -44690,7 +44697,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "flex justify-between" }, [
-      _c("div", [_vm._v("\n           actions\n       ")]),
+      _c("div", [_vm._v("\n               actions\n           ")]),
       _vm._v(" "),
       _c("div", [
         _c(
@@ -44700,7 +44707,7 @@ var staticRenderFns = [
               "bg-blue-500 rounded-full text-gray-300 text-center px-4 py-3 font-bold leading-none ",
             attrs: { type: "submit" }
           },
-          [_vm._v("\n       Tweet ")]
+          [_vm._v("Tweet ")]
         )
       ])
     ])
@@ -59124,7 +59131,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   getters: {
     tweets: function tweets(state) {
-      return state.tweets;
+      return state.tweets.sort(function (a, b) {
+        return b.created_at - a.created_at;
+      });
     }
   },
   mutations: {
@@ -59148,7 +59157,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
               case 3:
                 response = _context.sent;
-                commit('PUSH_TWEETS', response.data.data);
+                commit("PUSH_TWEETS", response.data.data);
                 return _context.abrupt("return", response);
 
               case 6:

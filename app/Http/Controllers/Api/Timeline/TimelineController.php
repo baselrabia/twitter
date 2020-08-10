@@ -17,11 +17,10 @@ class TimelineController extends Controller
     {
 
         $tweets = $request->user()
-                        ->tweetsFromFollowing()
-                        ->latest()
-                        ->paginate(5);
+            ->tweetsFromFollowing()
+            ->latest()
+            ->paginate(3);
 
-        return new tweetCollection($tweets);
-
+        return new TweetCollection($tweets);
     }
 }

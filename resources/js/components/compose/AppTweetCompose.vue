@@ -11,15 +11,15 @@
             v-model="form.body"></textarea>
 
 
-        <div class="flex justify-between">
-            <div>
-                actions
+            <div class="flex justify-between">
+                <div>
+                    actions
+                </div>
+                <div>
+                    <button type="submit" class="bg-blue-500 rounded-full text-gray-300 text-center px-4 py-3 font-bold leading-none " >Tweet </button>
+                </div>
             </div>
-            <div>
-        <button type="submit" class="bg-blue-500 rounded-full text-gray-300 text-center px-4 py-3 font-bold leading-none " >
-            Tweet </button>
-        </div>
-        </div>
+
         </div>
      </form>
 </template>

@@ -24,7 +24,7 @@ class TweetStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'body'=>'require|max:250' ,
+            'body'=>'required|max:250' ,
         ];
     }
 }
