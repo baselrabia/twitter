@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Tweets;
 
+use App\Events\Tweets\TweetLikesWereUpdated;
 use App\Http\Controllers\Controller;
 use App\Tweet;
 use Illuminate\Http\Request;
@@ -17,6 +18,9 @@ class TweetLikeController extends Controller
         $request->user()->likes()->create([
             'tweet_id'=> $tweet->id
             ]);
+
+        broadcast(new TweetLikesWereUpdated($request->user(),$tweet));
+
     }
 
     public function destroy(Tweet $tweet, Request $request)
@@ -24,6 +28,9 @@ class TweetLikeController extends Controller
         $request->user()->likes()->where([
             'tweet_id' => $tweet->id
             ])->first()->delete();
+
+        broadcast(new TweetLikesWereUpdated($request->user(), $tweet));
+
 
     }
 }
