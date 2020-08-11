@@ -25,3 +25,6 @@ Route::post('/tweets', 'Api\Tweets\TweetController@store');
 
 Route::post('/tweets/{tweet}/likes', 'Api\Tweets\TweetLikeController@store');
 Route::delete('/tweets/{tweet}/likes', 'Api\Tweets\TweetLikeController@destroy');
+
+Route::post('/tweets/{tweet}/retweets', 'Api\Tweets\TweetRetweetController@store');
+Route::delete('/tweets/{tweet}/retweets', 'Api\Tweets\TweetRetweetController@destroy');

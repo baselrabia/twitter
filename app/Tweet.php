@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model
 {
-    protected $fillable = [
-        'body','type',
-    ];
+    protected $guarded = [];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -27,5 +25,10 @@ class Tweet extends Model
     public function retweets()
     {
         return $this->hasMany(Tweet::class , 'original_tweet_id');
+    }
+
+    public function retweetedTweet()
+    {
+        return $this->hasOne(Tweet::class, 'original_tweet_id' ,'id');
     }
 }

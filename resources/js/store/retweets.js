@@ -24,13 +24,13 @@ export default {
     },
 
     actions: {
-        async likeTweet({ commit }, tweet) {
+        async retweetTweet({ commit }, tweet) {
             await axios.post(`/api/tweets/${tweet.id}/retweets`);
         },
-        async unlikeTweet({ commit }, tweet) {
+        async unretweetTweet({ commit }, tweet) {
             await axios.delete(`/api/tweets/${tweet.id}/retweets`);
         },
-        syncLike({ commit, state }, { id }) {
+        syncRetweet({ commit, state }, { id }) {
             if (state.retweets.includes(id)) {
                 commit("POP_RETWEET", id);
                 return;
