@@ -8,7 +8,10 @@
                 <p class="text-gray-300 Whitespace-pre-wrap">
                     {{tweet.body}}
                 </p>
+
+                <app-tweet-action-group />
             </div>
+
         </div>
 </template>
 
