@@ -59840,12 +59840,18 @@ var app = new Vue({
   el: '#app',
   store: store
 });
-Echo.channel("tweets").listen('.TweetLikesWereUpdated', function (e) {
+Echo.channel("tweets").listen(".TweetLikesWereUpdated", function (e) {
   if (e.user_id === User.id) {
     store.dispatch("likes/syncLike", e);
   }
 
-  store.commit('timeline/SET_LIKES', e);
+  store.commit("timeline/SET_LIKES", e);
+}).listen(".TweetRetweetsWereUpdated", function (e) {
+  if (e.user_id === User.id) {
+    store.dispatch("retweets/syncRetweet", e);
+  }
+
+  store.commit("timeline/SET_RETWEETS", e);
 });
 
 /***/ }),
@@ -61278,8 +61284,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           t.likes_count = count;
         }
 
-        if (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(t.original_tweet, 'id') === id) {
+        if (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(t.original_tweet, "id") === id) {
           t.original_tweet.likes_count = count;
+        }
+
+        return t;
+      });
+    },
+    SET_RETWEETS: function SET_RETWEETS(state, _ref2) {
+      var id = _ref2.id,
+          count = _ref2.count;
+      state.tweets = state.tweets.map(function (t) {
+        if (t.id === id) {
+          t.retweets_count = count;
+        }
+
+        if (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(t.original_tweet, "id") === id) {
+          t.original_tweet.retweets_count = count;
         }
 
         return t;
@@ -61287,21 +61308,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   actions: {
-    getTweets: function getTweets(_ref2, url) {
+    getTweets: function getTweets(_ref3, url) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var commit, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref2.commit;
+                commit = _ref3.commit;
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 
               case 3:
                 response = _context.sent;
                 commit("PUSH_TWEETS", response.data.data);
-                commit('likes/PUSH_LIKES', response.data.meta.likes, {
+                commit("likes/PUSH_LIKES", response.data.meta.likes, {
                   root: true
                 });
                 commit("retweets/PUSH_RETWEETS", response.data.meta.retweets, {

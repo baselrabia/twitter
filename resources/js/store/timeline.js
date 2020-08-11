@@ -16,21 +16,32 @@ export default {
     mutations: {
         PUSH_TWEETS(state, data) {
             state.tweets.push(
-                ...data.filter((tweet) => {
-                    return !state.tweets.map((t) => t.id).includes(tweet.id)
+                ...data.filter(tweet => {
+                    return !state.tweets.map(t => t.id).includes(tweet.id);
                 })
-                );
+            );
         },
-        SET_LIKES(state,{id,count}){
-            state.tweets= state.tweets.map((t)=>{
-                if(t.id === id ){
-                    t.likes_count = count
+        SET_LIKES(state, { id, count }) {
+            state.tweets = state.tweets.map(t => {
+                if (t.id === id) {
+                    t.likes_count = count;
                 }
-                if(get(t.original_tweet,'id') === id){
-                    t.original_tweet.likes_count = count
+                if (get(t.original_tweet, "id") === id) {
+                    t.original_tweet.likes_count = count;
                 }
-                return t
-            })
+                return t;
+            });
+        },
+        SET_RETWEETS(state, { id, count }) {
+            state.tweets = state.tweets.map(t => {
+                if (t.id === id) {
+                    t.retweets_count = count;
+                }
+                if (get(t.original_tweet, "id") === id) {
+                    t.original_tweet.retweets_count = count;
+                }
+                return t;
+            });
         }
     },
 
@@ -39,8 +50,8 @@ export default {
             let response = await axios.get(url);
             commit("PUSH_TWEETS", response.data.data);
 
-            commit('likes/PUSH_LIKES', response.data.meta.likes, {
-                 root: true
+            commit("likes/PUSH_LIKES", response.data.meta.likes, {
+                root: true
             });
             commit("retweets/PUSH_RETWEETS", response.data.meta.retweets, {
                 root: true
