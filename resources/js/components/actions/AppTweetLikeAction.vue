@@ -24,12 +24,25 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      tweet: {
-        required: true,
-        type: Object
-      }
+    import { mapGetters } from 'vuex'
+
+    export default {
+        props: {
+            tweet: {
+                required: true,
+                type: Object
+            }
+        },
+
+        computed: {
+            ...mapGetters({
+                likes: 'likes/likes'
+            }),
+
+            liked () {
+                return this.likes.includes(this.tweet.id)
+            }
+        },
     }
-  }
+
 </script>
