@@ -2099,6 +2099,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2135,7 +2148,15 @@ __webpack_require__.r(__webpack_exports__);
       required: true,
       type: Object
     }
-  }
+  },
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    retweets: 'retweets/retweets'
+  })), {}, {
+    retweeted: function retweeted() {
+      return this.retweets.includes(this.tweet.id);
+    }
+  }),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({}))
 });
 
 /***/ }),
@@ -2262,8 +2283,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
-/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2288,7 +2309,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   directives: {
-    ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_1___default.a
+    ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
   }
 });
 
@@ -45279,6 +45300,9 @@ var render = function() {
               "svg",
               {
                 staticClass: "fill-current text-gray-600 w-5 mr-2",
+                class: {
+                  "text-green-600": _vm.retweeted
+                },
                 attrs: {
                   xmlns: "http://www.w3.org/2000/svg",
                   viewBox: "0 0 24 24",
@@ -45297,9 +45321,16 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("span", { staticClass: "text-gray-600" }, [
-              _vm._v(_vm._s(_vm.tweet.retweets_count))
-            ])
+            _c(
+              "span",
+              {
+                staticClass: "text-gray-600",
+                class: {
+                  "text-green-600": _vm.retweeted
+                }
+              },
+              [_vm._v(_vm._s(_vm.tweet.retweets_count))]
+            )
           ]
         )
       ]),
@@ -59632,6 +59663,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_observe_visibility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-observe-visibility */ "./node_modules/vue-observe-visibility/dist/vue-observe-visibility.esm.js");
 /* harmony import */ var _store_timeline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/timeline */ "./resources/js/store/timeline.js");
 /* harmony import */ var _store_likes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/likes */ "./resources/js/store/likes.js");
+/* harmony import */ var _store_retweets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/retweets */ "./resources/js/store/retweets.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -59661,10 +59693,12 @@ files.keys().map(function (key) {
 
 
 
+
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
   modules: {
     timeline: _store_timeline__WEBPACK_IMPORTED_MODULE_2__["default"],
-    likes: _store_likes__WEBPACK_IMPORTED_MODULE_3__["default"]
+    likes: _store_likes__WEBPACK_IMPORTED_MODULE_3__["default"],
+    retweets: _store_retweets__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 /**
@@ -60870,6 +60904,117 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 /***/ }),
 
+/***/ "./resources/js/store/retweets.js":
+/*!****************************************!*\
+  !*** ./resources/js/store/retweets.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    retweets: []
+  },
+  getters: {
+    retweets: function retweets(state) {
+      return state.retweets;
+    }
+  },
+  mutations: {
+    PUSH_RETWEETS: function PUSH_RETWEETS(state, data) {
+      var _state$retweets;
+
+      (_state$retweets = state.retweets).push.apply(_state$retweets, _toConsumableArray(data));
+    },
+    POP_RETWEET: function POP_RETWEET(state, data) {
+      state.retweets = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["without"])(state.retweets, data);
+    }
+  },
+  actions: {
+    likeTweet: function likeTweet(_ref, tweet) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                _context.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/tweets/".concat(tweet.id, "/retweets"));
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    unlikeTweet: function unlikeTweet(_ref2, tweet) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/tweets/".concat(tweet.id, "/retweets"));
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    syncLike: function syncLike(_ref3, _ref4) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      var id = _ref4.id;
+
+      if (state.retweets.includes(id)) {
+        commit("POP_RETWEET", id);
+        return;
+      }
+
+      commit("PUSH_RETWEETS", [id]);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/timeline.js":
 /*!****************************************!*\
   !*** ./resources/js/store/timeline.js ***!
@@ -60961,9 +61106,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 commit('likes/PUSH_LIKES', response.data.meta.likes, {
                   root: true
                 });
+                commit("retweets/PUSH_RETWEETS", response.data.meta.retweets, {
+                  root: true
+                });
                 return _context.abrupt("return", response);
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
