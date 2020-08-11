@@ -18,7 +18,18 @@
         'text-red-600': liked
       }"
     >
-     0
+    {{tweet.likes_count}}
     </span>
   </a>
 </template>
+
+<script>
+  export default {
+    props: {
+      tweet: {
+        required: true,
+        type: Object
+      }
+    }
+  }
+</script>

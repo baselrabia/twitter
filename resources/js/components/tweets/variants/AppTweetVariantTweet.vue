@@ -9,7 +9,8 @@
                     {{tweet.body}}
                 </p>
 
-                <app-tweet-action-group />
+                <app-tweet-action-group
+                :tweet="tweet" />
             </div>
 
         </div>
