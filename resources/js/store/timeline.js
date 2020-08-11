@@ -1,5 +1,6 @@
 import axios from "axios";
 import {get} from "lodash"
+
 export default {
     namespaced: true,
 
@@ -20,6 +21,11 @@ export default {
                     return !state.tweets.map(t => t.id).includes(tweet.id);
                 })
             );
+        },
+        POP_TWEET(state, id) {
+            state.tweets = state.tweets.filter((t) => {
+                return t.id !==id
+            })
         },
         SET_LIKES(state, { id, count }) {
             state.tweets = state.tweets.map(t => {
