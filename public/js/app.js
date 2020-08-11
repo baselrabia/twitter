@@ -59365,6 +59365,10 @@ var app = new Vue({
   store: store
 });
 Echo.channel("tweets").listen('.TweetLikesWereUpdated', function (e) {
+  if (e.user_id === User.id) {
+    store.dispatch("likes/syncLike", e);
+  }
+
   store.commit('timeline/SET_LIKES', e);
 });
 
@@ -60300,6 +60304,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -60319,6 +60325,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
@@ -60334,6 +60341,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _state$likes;
 
       (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(data));
+    },
+    POP_LIKE: function POP_LIKE(state, data) {
+      state.likes = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["without"])(state.likes, data);
     }
   },
   actions: {
@@ -60374,6 +60384,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           }
         }, _callee2);
       }))();
+    },
+    syncLike: function syncLike(_ref3, _ref4) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      var id = _ref4.id;
+
+      if (state.likes.includes(id)) {
+        commit('POP_LIKE', id);
+        return;
+      }
+
+      commit("PUSH_LIKES", [id]);
     }
   }
 });
