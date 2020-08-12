@@ -16,7 +16,10 @@
                 </div>
                 <div class="flex items-center justify-end">
                     <div class="">
-                        <app-tweet-compose-limit :body="form.body"/>
+                        <app-tweet-compose-limit
+                        class="mr-2"
+                        :body="form.body"
+                        />
                     </div>
                     <button type="submit" class="bg-blue-500 rounded-full text-gray-300 text-center px-4 py-3 font-bold leading-none " >Tweet </button>
                 </div>
