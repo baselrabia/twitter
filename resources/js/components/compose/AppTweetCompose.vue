@@ -48,6 +48,10 @@
                 media:{
                     images : [],
                     video : null
+                },
+
+                mediaTypes:{
+
                 }
             }
         },
@@ -55,9 +59,28 @@
             async submit () {
                 await axios.post('/api/tweets',this.form)
             },
+            async getMediaTypes(){
+               let response = await axios.get('/api/media/types')
+               this.mediaTypes = response.data.data
+            },
             handleMediaSelected(files){
-                console.log(files)
+                array.from(files).slice(0, 4).forEach((file) => {
+                    if (this.mediaTypes.image.includes(file.type)) {
+                    this.media.images.push(file)
+                    }
+
+                    if (this.mediaTypes.video.includes(file.type)) {
+                    this.media.video = file
+                    }
+                })
+
+                if (this.media.video) {
+                    this.media.images = []
+                }
             }
+        },
+        mounted () {
+            this.getMediaTypes()
         }
 
     }
