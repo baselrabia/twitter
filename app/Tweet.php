@@ -36,5 +36,5 @@ class Tweet extends Model
     {
         return $this->hasMany(TweetMedia::class);
     }
-}
+
 }

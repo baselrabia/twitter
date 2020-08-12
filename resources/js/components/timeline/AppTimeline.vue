@@ -56,7 +56,8 @@
                 if(this.lastPage === this.page){
                     return
                 }
-                    console.log(isVisible);
+
+                console.log(this.lastPage);
 
                 this.page++;
                 this.loadTweets();

@@ -2330,12 +2330,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/tweets', _this.form);
 
               case 6:
-                _this.form.body = "";
+                _this.form.body = '';
                 _this.form.media = [];
-                _this.form.media.video = null;
-                _this.form.media.images = [];
+                _this.media.video = null;
+                _this.media.images = [];
+                _this.media.progress = 0;
 
-              case 10:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -2370,7 +2371,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     buildMediaForm: function buildMediaForm() {
-      var form = new formData();
+      var form = new FormData();
 
       if (this.media.images.length) {
         this.media.images.forEach(function (image, index) {
@@ -2814,7 +2815,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      console.log(isVisible);
+      console.log(this.lastPage);
       this.page++;
       this.loadTweets();
     }
@@ -2921,7 +2922,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     tweet: {
@@ -2996,11 +2996,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     tweet: {
       reqired: true,
       type: Object
+    }
+  },
+  computed: {
+    images: function images() {
+      return this.tweet.media.data.filter(function (m) {
+        return m.type === 'image';
+      });
     }
   }
 });
@@ -46479,12 +46493,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex w-full" }, [
-    _c("div", { staticClass: "mr-3" }, [
-      _c("img", {
-        staticClass: "w-12 rounded-full",
-        attrs: { src: _vm.tweet.user.avatar }
-      })
-    ]),
+    _c("img", {
+      staticClass: "w-12 h-12 rounded-full mr-3",
+      attrs: { src: _vm.tweet.user.avatar }
+    }),
     _vm._v(" "),
     _c(
       "div",
@@ -46595,12 +46607,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex w-full" }, [
-    _c("div", { staticClass: "mr-3" }, [
-      _c("img", {
-        staticClass: "w-12 rounded-full",
-        attrs: { src: _vm.tweet.user.avatar }
-      })
-    ]),
+    _c("img", {
+      staticClass: "w-12 h-12 rounded-full mr-3",
+      attrs: { src: _vm.tweet.user.avatar }
+    }),
     _vm._v(" "),
     _c(
       "div",
@@ -46611,6 +46621,26 @@ var render = function() {
         _c("p", { staticClass: "text-gray-300 Whitespace-pre-wrap" }, [
           _vm._v("\n            " + _vm._s(_vm.tweet.body) + "\n        ")
         ]),
+        _vm._v(" "),
+        _vm.images.length
+          ? _c(
+              "div",
+              { staticClass: "flex flex-wrap mb-4 mt-4" },
+              _vm._l(_vm.images, function(image, index) {
+                return _c(
+                  "div",
+                  { key: index, staticClass: "w-6/12 flex-grow" },
+                  [
+                    _c("img", {
+                      staticClass: "rounded-lg",
+                      attrs: { src: image.url }
+                    })
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c("app-tweet-action-group", { attrs: { tweet: _vm.tweet } })
       ],

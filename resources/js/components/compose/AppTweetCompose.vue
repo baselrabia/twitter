@@ -74,11 +74,14 @@
             async submit () {
                 let media = await this.uploadMedia()
                 this.form.media = media.data.data.map((m)=>m.id)
+
                 await axios.post('/api/tweets',this.form)
-                this.form.body=""
-                this.form.media= []
-                this.form.media.video= null
-                this.form.media.images= []
+
+                this.form.body = ''
+                this.form.media = []
+                this.media.video = null
+                this.media.images = []
+                this.media.progress = 0
             },
             async uploadMedia(){
                 return await axios.post('/api/media',this.buildMediaForm(),{
@@ -88,7 +91,7 @@
                 })
             },
             buildMediaForm(){
-                let form = new formData()
+                let form = new FormData()
                 if(this.media.images.length){
                     this.media.images.forEach((image,index)=>{
                         form.append(`media[${index}]`,image)
