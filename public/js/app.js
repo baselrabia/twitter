@@ -2331,8 +2331,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _this.form.body = "";
+                _this.form.media = [];
+                _this.form.media.video = null;
+                _this.form.media.images = [];
 
-              case 7:
+              case 10:
               case "end":
                 return _context.stop();
             }
