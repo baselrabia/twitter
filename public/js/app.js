@@ -2290,6 +2290,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2348,6 +2351,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    removeImage: function removeImage(image) {
+      this.media.images = this.media.images.filter(function (img) {
+        return image !== img;
+      });
+    },
+    removeVideo: function removeVideo() {
+      this.media.video = null;
     },
     handleMediaSelected: function handleMediaSelected(files) {
       var _this3 = this;
@@ -45801,13 +45812,15 @@ var render = function() {
           _vm._v(" "),
           _vm.media.images.length
             ? _c("app-tweet-image-preview", {
-                attrs: { images: _vm.media.images }
+                attrs: { images: _vm.media.images },
+                on: { removed: _vm.removeImage }
               })
             : _vm._e(),
           _vm._v(" "),
           _vm.media.video
             ? _c("app-tweet-video-preview", {
-                attrs: { video: _vm.media.video }
+                attrs: { video: _vm.media.video },
+                on: { removed: _vm.removeVideo }
               })
             : _vm._e(),
           _vm._v(" "),

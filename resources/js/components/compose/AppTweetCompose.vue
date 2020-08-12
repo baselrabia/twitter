@@ -13,11 +13,14 @@
             <app-tweet-image-preview
                     :images="media.images"
                     v-if="media.images.length"
+                     @removed="removeImage"
                 />
 
             <app-tweet-video-preview
                     :video="media.video"
                     v-if="media.video"
+                    @removed="removeVideo"
+
                 />
 
 
@@ -74,6 +77,14 @@
             async getMediaTypes(){
                let response = await axios.get('/api/media/types')
                this.mediaTypes = response.data.data
+            },
+            removeImage(image){
+                this.media.images =  this.media.images.filter((img)=>{
+                    return image !== img
+                })
+            },
+            removeVideo(){
+                this.media.video = null
             },
             handleMediaSelected(files){
                 Array.from(files).slice(0, 4).forEach((file) => {
