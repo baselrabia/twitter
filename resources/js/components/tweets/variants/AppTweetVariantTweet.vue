@@ -16,6 +16,11 @@
                     <img :src="image.url" class="rounded-lg">
                 </div>
             </div>
+
+             <div class="mb-4 mt-4" v-if="video" >
+                <video :src="video.url" controls class="rounded-lg"></video>
+            </div>
+
                 <app-tweet-action-group
                 :tweet="tweet" />
             </div>
@@ -34,6 +39,9 @@
         computed: {
             images(){
                 return this.tweet.media.data.filter(m=>m.type ==='image')
+            },
+            video(){
+                return this.tweet.media.data.filter(m=>m.type ==='video')[0]
             }
         }
     }
