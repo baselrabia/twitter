@@ -23,9 +23,9 @@ export default {
             );
         },
         POP_TWEET(state, id) {
-            state.tweets = state.tweets.filter((t) => {
-                return t.id !==id
-            })
+            state.tweets = state.tweets.filter(t => {
+                return t.id !== id;
+            });
         },
         SET_LIKES(state, { id, count }) {
             state.tweets = state.tweets.map(t => {
@@ -48,6 +48,17 @@ export default {
                 }
                 return t;
             });
+        },
+        SET_REPLIES(state, { id, count }) {
+            state.tweets = state.tweets.map(t => {
+                if (t.id === id) {
+                    t.replies_count = count;
+                }
+                if (get(t.original_tweet, "id") === id) {
+                    t.original_tweet.replies_count = count;
+                }
+                return t;
+            });
         }
     },
 
@@ -65,12 +76,11 @@ export default {
 
             return response;
         },
-        async quoteTweet(_, {tweet, data}) {
-            await axios.post(`/api/tweets/${tweet.id}/quotes`,data);
+        async quoteTweet(_, { tweet, data }) {
+            await axios.post(`/api/tweets/${tweet.id}/quotes`, data);
         },
-        async replyTweet(_, {tweet, data}) {
-             await axios.post(`/api/tweets/${tweet.id}/replies`,data);
-        },
-
+        async replyTweet(_, { tweet, data }) {
+            await axios.post(`/api/tweets/${tweet.id}/replies`, data);
+        }
     }
 };
