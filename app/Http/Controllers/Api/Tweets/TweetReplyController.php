@@ -6,26 +6,30 @@ use App\Events\Tweets\TweetRetweetsWereUpdated;
 use App\Events\Tweets\TweetWasCreated;
 use App\Http\Controllers\Controller;
 use App\Tweet;
+use App\TweetMedia;
 use App\Tweets\TweetType;
 use Illuminate\Http\Request;
 
-class TweetQuoteController extends Controller
+class TweetReplyController extends Controller
 {
     public function __constract()
     {
         $this->middleware('auth:sanctum');
     }
 
+
     public function store(Tweet $tweet, Request $request)
     {
-        $retweet = $request->user()->tweets()->create([
-            'type' => TweetType::QUOTE,
+        $reply = $request->user()->tweets()->create([
+            'type' => TweetType::TWEET,
             'body' => $request->body,
-            'original_tweet_id' => $tweet->id
+            'parent_id' => $tweet->id
         ]);
-        broadcast(new TweetWasCreated($retweet));
-        broadcast(new TweetRetweetsWereUpdated($request->user(), $tweet));
+
+        foreach ($request->media as $id) {
+            $reply->media()->save(TweetMedia::find($id));
+        }
+        // broadcast(new TweetWasCreated($reply));
+        // broadcast(new TweetRetweetsWereUpdated($request->user(), $tweet));
     }
-
-
 }

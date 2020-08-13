@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 
 class TweetRetweetController extends Controller
 {
+    public function __constract()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
+    
     public function store(Tweet $tweet, Request $request)
     {
         $retweet=$request->user()->tweets()->create([
