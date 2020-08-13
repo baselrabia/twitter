@@ -1,7 +1,7 @@
 <template>
   <textarea
     class="bg-gray-900 w-full outline-none text-gray-300 text-lg resize-none mb-2"
-    placeholder="what's happning"
+    :placeholder="placeholder"
     autofocus
     @input="$emit('input', $event.target.value); resize($event)"
     :value="value"
@@ -13,6 +13,11 @@
     props: {
       value: {
         required: false
+      },
+
+      placeholder: {
+        required: false,
+        type: String
       }
     },
 

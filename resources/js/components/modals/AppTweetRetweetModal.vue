@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-tweet-compose
+    <app-tweet-retweet-compose
       :tweet="tweet"
       @success="$emit('close')"
     />
