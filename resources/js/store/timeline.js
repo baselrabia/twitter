@@ -64,6 +64,9 @@ export default {
             });
 
             return response;
+        },
+        async quoteTweet(_, {tweet, data}) {
+            await axios.post(`/api/tweets/${tweet.id}/quotes`,data);
         }
     }
 };

@@ -31,3 +31,5 @@ Route::delete('/tweets/{tweet}/retweets', 'Api\Tweets\TweetRetweetController@des
 
 Route::post('/media', 'Api\Media\MediaController@store');
 Route::get('/media/types', 'Api\Media\MediaTypesController@index');
+
+Route::post('/tweets/{tweet}/quotes', 'Api\Tweets\TweetQuoteController@store');
