@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Route::get('/timeline', 'Api\Timeline\TimelineController@index');
 
+Route::get('/notifications', 'Api\Notifications\NotificationController@index');
+
 Route::post('/tweets', 'Api\Tweets\TweetController@store');
 
 Route::post('/tweets/{tweet}/replies', 'Api\Tweets\TweetReplyController@store');
