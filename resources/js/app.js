@@ -70,15 +70,19 @@ Echo.channel(`tweets`)
             store.dispatch("likes/syncLike", e);
         }
         store.commit("timeline/SET_LIKES", e);
+        store.commit("notifications/SET_LIKES", e);
+
     })
     .listen(".TweetRetweetsWereUpdated", e => {
         if (e.user_id === User.id) {
             store.dispatch("retweets/syncRetweet", e);
         }
         store.commit("timeline/SET_RETWEETS", e);
+        store.commit("notifications/SET_RETWEETS", e);
     })
     .listen(".TweetRepliesWereUpdated", e => {
         store.commit("timeline/SET_REPLIES", e);
+        store.commit("notifications/SET_REPLIES", e);
     })
     .listen(".TweetWasDeleted", e => {
         store.commit("timeline/POP_TWEET", e.id);
