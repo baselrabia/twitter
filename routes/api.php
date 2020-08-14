@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/notifications', 'Api\Notifications\NotificationController@index');
 
 Route::post('/tweets', 'Api\Tweets\TweetController@store');
+Route::get('/tweets', 'Api\Tweets\TweetController@index');
 
 Route::post('/tweets/{tweet}/replies', 'Api\Tweets\TweetReplyController@store');
 

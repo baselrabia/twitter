@@ -1,33 +1,46 @@
 import axios from "axios";
-import { get } from "lodash";
+import getters from "../store/tweet/getters";
+import mutations from "../store/tweet/mutations";
+import actions from "../store/tweet/actions";
+
 
 export default {
     namespaced: true,
 
     state: {
-        notifications: []
+        notifications: [],
+        tweets: []
     },
 
     getters: {
+        ...getters,
         notifications(state) {
-            return state.notifications.sort((a, b) => b.created_at - a.created_at);
+            return state.notifications;
+        },
+        tweetIdsFromNotifications(state) {
+            return state.notifications.map(n => n.data.tweet.id);
         }
     },
 
     mutations: {
+        ...mutations,
         PUSH_NOTIFICATIONS(state, data) {
             state.notifications.push(...data);
-        },
-
+        }
     },
 
     actions: {
-        async getNotifications({ commit }, url) {
+        ...actions,
+        async getNotifications({ commit, dispatch, getters }, url) {
             let response = await axios.get(url);
             commit("PUSH_NOTIFICATIONS", response.data.data);
 
-            return response;
-        },
+            dispatch(
+                "getTweets",
+                `api/tweets?ids=${getters.tweetIdsFromNotifications.join(',')}`
+            );
 
+            return response;
+        }
     }
 };
