@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full border-b border-gray-800">
-            {{notification.id}}
+    <component :is="`AppNotification${notification.type}`" :notification="notification" />
   </div>
 </template>
 
