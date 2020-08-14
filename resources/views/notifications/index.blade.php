@@ -9,7 +9,7 @@
 
     <div class="w-7/12 border-2 border-gray-800 border-t-0 border-b-0">
 
-        notifications
+        <app-notifications />
     </div>
 </div>
 @endsection
