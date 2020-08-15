@@ -4,9 +4,9 @@
 
             <div class="flex-grow">
             <app-tweet-username :user="tweet.user" />
-                <p class="text-gray-300 Whitespace-pre-wrap">
-                    {{tweet.body}}
-                </p>
+
+             <app-tweet-body :tweet="tweet" />
+
 
                 <app-tweet
                 class="border border-gray-700 rounded-lg mt-4"
