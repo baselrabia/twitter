@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Events\Tweets\TweetWasCreated;
 use App\Http\Requests\Tweets\TweetStoreRequest;
 use App\Http\Resources\TweetCollection;
+use App\Notifications\Tweets\TweetMentionedIn;
 use App\Tweet;
 use App\TweetMedia;
 use App\Tweets\TweetType;
@@ -44,7 +45,11 @@ class TweetController extends Controller
             $tweet->media()->save(TweetMedia::find($id));
         }
 
-            dd($tweet->mentions->users());
+        foreach ($tweet->mentions->users() as $user) {
+            if ($request->user()->id !== $user->id) {
+                $user->notify(new TweetMentionedIn($request->user(), $tweet));
+            }
+        }
 
         broadcast(new TweetWasCreated($tweet));
 
