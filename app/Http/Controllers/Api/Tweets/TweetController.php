@@ -36,13 +36,15 @@ class TweetController extends Controller
             return new TweetCollection($tweets);
     }
 
-    public function store(TweetStoreRequest $request) 
+    public function store(TweetStoreRequest $request)
     {
         $tweet = $request->user()->tweets()->create(array_merge($request->only('body'),['type'=>TweetType::TWEET]));
 
         foreach ($request->media as $id ) {
             $tweet->media()->save(TweetMedia::find($id));
         }
+
+            dd($tweet->mentions->users());
 
         broadcast(new TweetWasCreated($tweet));
 

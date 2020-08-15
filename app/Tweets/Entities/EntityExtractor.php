@@ -39,14 +39,19 @@ class EntityExtractor
      * @return void
      */
 
-
+    public function getHashtagEntities()
+    {
+        return $this->buildEntityCollection(
+            $this->match(self::HASHTAG_REGEX),
+            EntityType::HASHTAG
+        );
+    }
 
     /**
      * Undocumented function
      *
      * @return void
      */
-
     public function getMentionEntities()
     {
         return $this->buildEntityCollection(
@@ -60,7 +65,6 @@ class EntityExtractor
      *
      * @return void
      */
-
     public function getAllEntities()
     {
         return array_merge($this->getHashtagEntities(), $this->getMentionEntities());
