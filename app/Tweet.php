@@ -28,6 +28,24 @@ class Tweet extends Model
        return $builder->whereNull('parent_id');
     }
 
+    public function parents()
+    {
+        $base = $this;
+        $parents = [];
+
+        while ($base->parentTweet) {
+            $parents[] = $base->parentTweet;
+            $base = $base->parentTweet;
+        }
+
+        return collect($parents);
+    }
+
+    public function parentTweet()
+    {
+        return $this->belongsTo(Tweet::class ,'parent_id');
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }

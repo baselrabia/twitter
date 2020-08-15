@@ -18,12 +18,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::get('/timeline', 'Api\Timeline\TimelineController@index');
+// Route::get('/timeline', 'Api\Timeline\TimelineController@index');
 
 Route::get('/notifications', 'Api\Notifications\NotificationController@index');
 
 Route::post('/tweets', 'Api\Tweets\TweetController@store');
 Route::get('/tweets', 'Api\Tweets\TweetController@index');
+
+Route::get('/tweets/{tweet}', 'Api\Tweets\TweetController@show');
 
 Route::post('/tweets/{tweet}/replies', 'Api\Tweets\TweetReplyController@store');
 

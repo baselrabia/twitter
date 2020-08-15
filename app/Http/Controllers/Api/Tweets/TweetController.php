@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Events\Tweets\TweetWasCreated;
 use App\Http\Requests\Tweets\TweetStoreRequest;
 use App\Http\Resources\TweetCollection;
+use App\Http\Resources\TweetResource;
 use App\Notifications\Tweets\TweetMentionedIn;
 use App\Tweet;
 use App\TweetMedia;
@@ -26,6 +27,7 @@ class TweetController extends Controller
                 'likes',
                 'retweets',
                 'replies',
+                'entities',
                 'media.baseMedia',
                 'originalTweet.user',
                 'originalTweet.likes',
@@ -36,6 +38,12 @@ class TweetController extends Controller
 
             return new TweetCollection($tweets);
     }
+
+    public function show(Tweet $tweet)
+    {
+        return new TweetCollection(collect([$tweet])->merge($tweet->parents()));
+    }
+
 
     public function store(TweetStoreRequest $request)
     {
