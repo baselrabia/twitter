@@ -31,12 +31,12 @@ class TweetController extends Controller
                 'originalTweet.retweets',
                 'originalTweet.media.baseMedia',
             ])
-            ->find(explode(',',$request->ids);
-            
-            return new TweetCollection($tweets));
+            ->find(explode(',',$request->ids));
+
+            return new TweetCollection($tweets);
     }
 
-    public function store(TweetStoreRequest $request)
+    public function store(TweetStoreRequest $request) 
     {
         $tweet = $request->user()->tweets()->create(array_merge($request->only('body'),['type'=>TweetType::TWEET]));
 

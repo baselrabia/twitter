@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Tweets\Entities\EntityExtractor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,10 +15,11 @@ class Tweet extends Model
         parent::boot();
 
         static::created(function (Tweet $tweet){
-            preg_match_all('/(?!\s)#([A-Za-z]\w*)\b/', $tweet->body, $matches, PREG_OFFSET_CAPTURE);
-
-            return $matches;
+            $tweet->entities()->createMany(
+                (new EntityExtractor($tweet->body))->getAllEntities()
+            );
         });
+
     }
 
     public function scopeParent(Builder $builder)
