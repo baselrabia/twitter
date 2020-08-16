@@ -10,7 +10,7 @@
                 :key="parent.id"
                 />
         </div>
-        <div>
+        <div class="text-lg border-b-8 border-t-8 border-gray-800">
 
             <app-tweet
                 v-if="tweet(id)"

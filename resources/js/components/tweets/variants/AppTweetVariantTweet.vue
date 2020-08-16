@@ -5,6 +5,10 @@
             <div class="flex-grow">
                 <app-tweet-username :user="tweet.user" />
 
+                <div v-if="tweet.replying_to" class="text-gray-600 mb-2" >
+                    Replying to <a :href="`/user/${tweet.replying_to}`" >@{{tweet.replying_to}}</a>
+                </div>
+
                 <app-tweet-body :tweet="tweet" />
 
             <div class="flex flex-wrap mb-4 mt-4" v-if="images.length" >

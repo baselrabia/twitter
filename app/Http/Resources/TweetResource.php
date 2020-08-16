@@ -28,6 +28,7 @@ class TweetResource extends JsonResource
             'media' => new MediaCollection($this->media),
             'entities' => new EntityCollection($this->entities),
             'replies_count' => $this->replies->count(),
+            'replying_to' => optional(optional($this->parentTweet)->user)->username,
             'created_at' => $this->created_at->timestamp,
 
         ];
