@@ -9,7 +9,19 @@ export default {
         tweets: []
     },
 
-    getters,
+    getters: {
+        ...getters,
+        parents(state) {
+            return id =>
+                state.tweets
+                    .filter((t) => {
+                        return t.id != id && !t.parents_ids.includes(parseInt(id)) })
+                    .sort((a, b) => b.created_at - a.created_at);
+        },
+        replies(state){
+             return id => state.tweets.filter(t => t.parent_id == id);
+        }
+    },
 
     mutations,
 

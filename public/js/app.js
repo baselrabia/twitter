@@ -2899,6 +2899,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2908,13 +2919,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    tweet: 'conversation/tweet'
+    tweets: 'conversation/tweets',
+    tweet: 'conversation/tweet',
+    parents: 'conversation/parents',
+    replies: 'conversation/replies'
   })),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     getTweets: 'conversation/getTweets'
   })),
   mounted: function mounted() {
     this.getTweets("/api/tweets/".concat(this.id));
+    this.getTweets("/api/tweets/".concat(this.id, "/replies"));
   }
 });
 
@@ -46305,7 +46320,7 @@ var render = function() {
       on: {
         click: function($event) {
           $event.preventDefault()
-          return _vm.$model.show(_vm.AppTweetReplyModal, { tweet: _vm.tweet })
+          return _vm.$modal.show(_vm.AppTweetReplyModal, { tweet: _vm.tweet })
         }
       }
     },
@@ -47171,7 +47186,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", [_vm._v("\n            parent\n        ")]),
+    _c(
+      "div",
+      _vm._l(_vm.parents(_vm.id), function(parent) {
+        return _c("app-tweet", { key: parent.id, attrs: { tweet: parent } })
+      }),
+      1
+    ),
     _vm._v(" "),
     _c(
       "div",
@@ -47183,7 +47204,13 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c("div", [_vm._v("\n\nchild\n        ")])
+    _c(
+      "div",
+      _vm._l(_vm.replies(_vm.id), function(replie) {
+        return _c("app-tweet", { key: replie.id, attrs: { tweet: replie } })
+      }),
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -64480,6 +64507,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_tweet_getters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/tweet/getters */ "./resources/js/store/tweet/getters.js");
 /* harmony import */ var _store_tweet_mutations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/tweet/mutations */ "./resources/js/store/tweet/mutations.js");
 /* harmony import */ var _store_tweet_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/tweet/actions */ "./resources/js/store/tweet/actions.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -64488,7 +64521,24 @@ __webpack_require__.r(__webpack_exports__);
   state: {
     tweets: []
   },
-  getters: _store_tweet_getters__WEBPACK_IMPORTED_MODULE_0__["default"],
+  getters: _objectSpread(_objectSpread({}, _store_tweet_getters__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+    parents: function parents(state) {
+      return function (id) {
+        return state.tweets.filter(function (t) {
+          return t.id != id && !t.parents_ids.includes(parseInt(id));
+        }).sort(function (a, b) {
+          return b.created_at - a.created_at;
+        });
+      };
+    },
+    replies: function replies(state) {
+      return function (id) {
+        return state.tweets.filter(function (t) {
+          return t.parent_id == id;
+        });
+      };
+    }
+  }),
   mutations: _store_tweet_mutations__WEBPACK_IMPORTED_MODULE_1__["default"],
   actions: _store_tweet_actions__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
