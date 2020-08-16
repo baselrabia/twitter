@@ -61901,6 +61901,7 @@ Echo.channel("tweets").listen(".TweetLikesWereUpdated", function (e) {
 
   store.commit("timeline/SET_LIKES", e);
   store.commit("notifications/SET_LIKES", e);
+  store.commit("conversation/SET_LIKES", e);
 }).listen(".TweetRetweetsWereUpdated", function (e) {
   if (e.user_id === User.id) {
     store.dispatch("retweets/syncRetweet", e);
@@ -61908,9 +61909,11 @@ Echo.channel("tweets").listen(".TweetLikesWereUpdated", function (e) {
 
   store.commit("timeline/SET_RETWEETS", e);
   store.commit("notifications/SET_RETWEETS", e);
+  store.commit("conversation/SET_RETWEETS", e);
 }).listen(".TweetRepliesWereUpdated", function (e) {
   store.commit("timeline/SET_REPLIES", e);
   store.commit("notifications/SET_REPLIES", e);
+  store.commit("conversation/SET_REPLIES", e);
 }).listen(".TweetWasDeleted", function (e) {
   store.commit("timeline/POP_TWEET", e.id);
 });
